@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +17,28 @@ use App\Http\Controllers\ArticleController;
 |
 */
 //Authenticatte
-Route::get("/auth/signup", [AuthController::class,"signup"]);
-Route::post("/auth/register", [AuthController::class,"register"]);
-
-
+Route::get("/auth/signup", [AuthController::class, "signup"]);
+Route::post("/auth/register", [AuthController::class, "register"]);
+Route::get("/auth/login", [AuthController::class, "login"])->name('login');
+Route::post('/auth/signin', [AuthController::class, 'authenticate']);
+Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 //Article
-Route::resource('/article', ArticleController::class);
+Route::resource('/article', ArticleController::class)->middleware('auth:sanctum');
 
+//Comment
+Route::controller(CommentController::class)->prefix('/comment')->middleware('auth:sanctum')->group(function(){
+    Route::post('','store');
+    Route::get('/{id}/edit', 'edit');
+    Route::post('/{comment}/update', 'update');
+    Route::get('/{id}/delete', 'delete');
+});
 
 //Main
 Route::get('/', [MainController::class, 'index']);
 
 Route::get('/gallery/{img}/{name}', function ($img, $name) {
-    return view('main.gallery', ['img' => $img, 'name'=> $name]);
+    return view('main.gallery', ['img' => $img, 'name' => $name]);
 });
 
 Route::get('/about', function () {

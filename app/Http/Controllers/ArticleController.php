@@ -47,7 +47,13 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         $user = User::findOrFail($article->user_id);
-        return view('article.show', ['article' => $article, 'user' => $user]);
+        // Получение комментариев статьи с автором
+        $comments = $article->comments()->with('user')->get();
+        return view('article.show', [
+            'article' => $article,
+            'user' => $user,
+            'comments' => $comments,
+        ]);
     }
 
     /**
@@ -83,7 +89,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if ($article->delete()) return redirect('/article')->with('status', value: 'Delete succsess!');
-        else return redirect('')->route('article.show', ['article' => $article->id])->with('status', 'Delete failed! Please try again.');
+        if ($article->delete())
+            return redirect('/article')->with('status', value: 'Delete succsess!');
+        else
+            return redirect('')->route('article.show', ['article' => $article->id])->with('status', 'Delete failed! Please try again.');
     }
 }

@@ -831,6 +831,35 @@
       }
     }
   </style> -->
+  <style>
+    .comments-section {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+    }
+    .comments-section h3 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .card {
+      border-radius: 8px;
+    }
+    .card-header {
+      background-color: #f1f1f1;
+      font-size: 1rem;
+    }
+    .card-text {
+      font-size: 1rem;
+      color: #555;
+    }
+    .add-comment-section {
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -869,7 +898,21 @@
             </ul>
           </li> -->
         </ul>
-        <a href="/auth/signup" class="btn btn-outline-success">SignUp</a>
+        <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
+          @guest
+            <li class="nav-item">
+              <a href="/auth/signup" class="btn btn-outline-success">SignUp</a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth/login" class="btn btn-outline-success">SignIn</a>
+            </li>
+          @endguest
+          @auth
+            <li class="nav-item">
+              <a href="/auth/logout" class="btn btn-outline-danger">Logout</a>
+            </li>
+          @endauth
+        </ul>
       </div>
     </div>
   </nav>
