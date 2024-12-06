@@ -21,9 +21,9 @@ class CommentController extends Controller
         $comment->desc = $request->desc;
         $comment->article_id = request('article_id');
         $comment->user_id = Auth::id();
-        if ($comment->save())
+        if ($comment->save()){
             VeryLongJob::dispatch($comment, $article->name);
-        return redirect()->back()->with('status', 'Your comment has been added for moderatorion!');
+        return redirect()->back()->with('status', 'Your comment has been added for moderatorion!');}
     }
 
     public function edit($id){

@@ -23,6 +23,6 @@ class VeryLongJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to('miha.frolow2017@yandex.ru')->send(new NewCommentMail($this->comment, $this->article_name));
+        Mail::to('ivashevitch.k@yandex.ru')->send(new NewCommentMail($this->comment, $this->article_name));
     }
 }
