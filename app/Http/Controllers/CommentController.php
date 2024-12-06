@@ -2,13 +2,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comment;
-use App\Models\Article;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\VeryLongJob;
+use App\Models\Article;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Article $article){
+    public function store(Request $request, Article $article)
+    {
+        $article = Article::findOrFail($request->article_id);
         $request->validate([
             'name'=>'required|min:3',
             'desc'=>'required|max:256',
@@ -18,8 +21,9 @@ class CommentController extends Controller
         $comment->desc = $request->desc;
         $comment->article_id = request('article_id');
         $comment->user_id = Auth::id();
-        $comment->save();
-        return redirect()->back();
+        if ($comment->save())
+            VeryLongJob::dispatch($comment, $article->name);
+        return redirect()->back()->with('status', 'Your comment has been added for moderatorion!');
     }
 
     public function edit($id){
@@ -45,5 +49,25 @@ class CommentController extends Controller
         Gate::authorize('update_comment', $comment);
         $comment->delete();
         return redirect()->route('article.show', ['article' => $comment->article_id])->with('status', 'Delete success');
+}
+public function show()
+{
+    $Comments = Comment::all();
+    return view('comments.show', [
+        'Comments' => $Comments,
+    ]);
+}
+public function accept(Comment $comment)
+{
+    $comment->accept = true;
+    $comment->save();
+    return redirect()->route('comment.show')->with('status', 'Comment accepted');
+}
+
+public function reject(Comment $comment)
+{
+    $comment->accept = false;
+    $comment->save();
+    return redirect()->route('comment.show')->with('status', 'Comment rejected');
 }
 }

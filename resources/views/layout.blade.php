@@ -883,6 +883,9 @@
             <a class="nav-link active" aria-current="page" href="/about">О нас</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/comment/show">Check comments</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/contact">Контакты</a>
           </li>
           <!-- <li class="nav-item dropdown">

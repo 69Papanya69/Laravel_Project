@@ -27,11 +27,14 @@ Route::get('/auth/logout', [AuthController::class, 'logout']);
 Route::resource('/article', ArticleController::class)->middleware('auth:sanctum');
 
 //Comment
-Route::controller(CommentController::class)->prefix('/comment')->middleware('auth:sanctum')->group(function(){
-    Route::post('','store');
+Route::controller(CommentController::class)->prefix('/comment')->middleware('auth:sanctum')->group(function () {
+    Route::post('', 'store');
     Route::get('/{id}/edit', 'edit');
     Route::post('/{comment}/update', 'update');
     Route::get('/{id}/delete', 'delete');
+    Route::get('/show', 'show')->name('comment.show');
+    Route::get('/{comment}/accept', 'accept');
+    Route::get('/{comment}/reject', 'reject');
 });
 
 //Main
