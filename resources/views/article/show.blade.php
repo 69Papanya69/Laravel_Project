@@ -63,12 +63,16 @@
             <h5 class="card-title">{{ $article->name }}</h5>
             <p class="card-text">{{ $article->desc }}</p>
             <div class="d-flex justify-content-center">
+                @can('edit', $article->id)
                 <a href="{{$article->id}}/edit" class="btn btn-primary me-2">Edit article</a>
+                @endcan
+                @can('delete', $article->id)
                 <form action="/article/{{$article->id}}" method="POST">
                     @method("DELETE")
                     @csrf
                     <button type="submit" class="btn btn-danger">Delete article</button>
                 </form>
+                @endcan
             </div>
         </div>
     </div>
@@ -89,8 +93,8 @@
                     <p class="card-text mb-0">{{ $comment->desc }}</p>
                     <div>
                         @can('update_comment', $comment)
-                        <a href="/comment/{{$comment->id}}/edit" class="btn btn-primary me-2">Edit comment</a>
-                        <a href="/comment/{{$comment->id}}/delete" class="btn btn-danger me-2">Delete comment</a>
+                                <a href="/comment/{{$comment->id}}/edit" class="btn btn-primary me-2">Edit comment</a>
+                                <a href="/comment/{{$comment->id}}/delete" class="btn btn-danger me-2">Delete comment</a>
                         @endcan
                     </div>
                 </div>

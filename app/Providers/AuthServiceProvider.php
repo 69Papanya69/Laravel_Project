@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Providers;
-
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Auth\Access\Response;
@@ -28,7 +26,6 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->role == 'moderator')
                 return true;
         });
-
         Gate::define('update_comment', function (User $user, Comment $comment) {
             if ($user->id == $comment->user_id) {
                 return Response::allow();
