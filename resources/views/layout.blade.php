@@ -889,6 +889,18 @@
           <li class="nav-item">
             <a class="nav-link" href="/contact">Контакты</a>
           </li>
+          @auth
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Notifications {{auth()->user()->unreadNotifications->count()}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              @foreach(auth()->user()->unreadNotifications as $notification)
+                <li><a class="dropdown-item" href="{{route('article.show', ['article'=>$notification->data['article']['id'], 'notify'=>$notification->id])}}">{{$notification->data['article']['name']}}: {{$notification->data['comment_name']}}</a></li>
+              @endforeach
+            </ul>
+          </li>
+          @endauth
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
@@ -906,18 +918,18 @@
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 gap-3">
           @guest
-            <li class="nav-item">
-              <a href="/auth/signup" class="btn btn-outline-success">SignUp</a>
+          <li class="nav-item">
+            <a href="/auth/signup" class="btn btn-outline-success">SignUp</a>
             </li>
             <li class="nav-item">
-              <a href="/auth/login" class="btn btn-outline-success">SignIn</a>
+            <a href="/auth/login" class="btn btn-outline-success">SignIn</a>
             </li>
           @endguest
-          @auth
+            @auth
             <li class="nav-item">
               <a href="/auth/logout" class="btn btn-outline-danger">Logout</a>
-            </li>
-          @endauth
+              </li>
+            @endauth
         </ul>
       </div>
     </div>

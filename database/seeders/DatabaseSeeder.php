@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
             // ArticleSeeder::class,
             UserSeeder::class
         );
-        // \App\Models\User::factory(10)->create();
-        // Article::factory(10)->has(Comment::factory(3))->create();
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory(10)->create();
+        Article::factory(10)->has(Comment::factory(3))->create();
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
     }
 }
